@@ -29,15 +29,15 @@ ClipIt is a full-stack URL shortener developed using React, Spring Boot, and MyS
 
 ## <a name="features">✨ Features</a>
 
-- Instant communication using STOMP and WebSocket for a seamless, live chat experience.
-
-- Secure Authentication: User data and sessions are protected via JWT (JSON Web Tokens) and Spring Security.
-
-- Persistent Storage: All chat history and user profiles are reliably stored using MongoDB for high scalability.
-
-- Dynamic Room Management: Users can create and join specific chat rooms to organize conversations by topic.
-
-- Responsive UI: A modern, mobile-friendly interface built with React to ensure accessibility across all devices.
+- Transforms long, cumbersome URLs into short, manageable links for easier sharing.
+  
+- Uses MySQL to map unique short-codes to original destination URLs with high integrity.
+  
+- Provides a private area for users to manage their links, secured by Spring Security and JWT.
+  
+- Implements efficient server-side logic to handle instant traffic routing from the short link to the target site.
+  
+- Built with a clean Spring Boot REST API that handles link creation and retrieval requests seamlessly.
 
 ## <a name="documentation">📖 Documentation</a>
 
