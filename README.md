@@ -1,7 +1,7 @@
 <div align="center">
   <div>
     <a href="https://lnk1.netlify.app" target="_blank">
-      <img src="https://github.com/user-attachments/assets/aea1aaab-1e54-4a9c-9522-6c7893e413a8" alt="Project Image">
+      <img src="https://github.com/user-attachments/assets/7ed7c8b2-93e0-45e6-bf7d-f1f869352635" alt="Project Image">
     </a>
   </div>
   <h1 align="center">ClipIt - URL Shortener</h1>
