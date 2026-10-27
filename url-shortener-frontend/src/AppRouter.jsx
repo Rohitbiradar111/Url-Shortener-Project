@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import Navbar from "./components/NavBar";
 import ShortenUrlPage from "./components/ShortenUrlPage";
 import { Toaster } from "react-hot-toast";
@@ -11,14 +11,23 @@ import PrivateRoute from "./PrivateRoute";
 import ErrorPage from "./components/ErrorPage";
 
 const AppRouter = () => {
-  const hideHeaderFooter = location.pathname.startsWith("/s");
+  const { pathname } = useLocation();
+  const hideHeaderFooter = pathname.startsWith("/s");
 
   return (
     <>
       {!hideHeaderFooter && <Navbar />}
       <Toaster position="top-center" />
       <Routes>
-        <Route path="/" element={<LandingPage />} />
+        <Route
+          path="/"
+          element={
+            <PrivateRoute publicPage={true}>
+              <LandingPage />
+            </PrivateRoute>
+          }
+        />
+        
         <Route path="/s/:url" element={<ShortenUrlPage />} />
 
         <Route
@@ -46,6 +55,7 @@ const AppRouter = () => {
             </PrivateRoute>
           }
         />
+
         <Route path="/error" element={<ErrorPage />} />
         <Route
           path="*"

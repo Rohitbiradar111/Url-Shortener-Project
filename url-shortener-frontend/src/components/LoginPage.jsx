@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import TextField from "./TextField";
 import { Link, useNavigate } from "react-router-dom";
@@ -18,7 +18,6 @@ const LoginPage = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      username: "",
       email: "",
       password: "",
     },
@@ -34,8 +33,8 @@ const LoginPage = () => {
       toast.success("Login Successful!");
       reset();
       navigate("/dashboard");
-    } catch (error) {
-      toast.error("Login Failed!");
+    } catch (err) {
+      toast.error(err?.response?.data?.message || "Login Failed!");
     } finally {
       setLoader(false);
     }
@@ -55,12 +54,12 @@ const LoginPage = () => {
 
         <div className="flex flex-col gap-3">
           <TextField
-            label="UserName :"
+            label="Email :"
             required
-            id="username"
-            type="text"
-            message="*Username is required"
-            placeholder="Type your username"
+            id="email"
+            type="email"
+            message="*Email is required"
+            placeholder="Type your email"
             register={register}
             errors={errors}
           />
@@ -81,7 +80,7 @@ const LoginPage = () => {
         <button
           disabled={loader}
           type="submit"
-          className="font-semibold w-full py-2 hover:cursor-pointer rounded-full bg-amber-400 hover:bg-amber-500 my-3"
+          className="font-semibold w-full py-2 cursor-pointer rounded-md bg-amber-300 hover:bg-amber-400 shadow-md shadow-slate-500 text-slate-900 my-3 transition-colors"
         >
           {loader ? "Loading..." : "Login"}
         </button>

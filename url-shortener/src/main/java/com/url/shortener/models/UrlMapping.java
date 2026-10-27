@@ -1,8 +1,8 @@
 package com.url.shortener.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -16,11 +16,14 @@ public class UrlMapping {
     private String shortUrl;
     private int clickCount = 0;
     private LocalDateTime createdDate;
+    private LocalDateTime expiresDate;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 
-    @OneToMany(mappedBy = "urlMapping")
+    @OneToMany(mappedBy = "urlMapping", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<ClickEvent> clickEvents;
 }

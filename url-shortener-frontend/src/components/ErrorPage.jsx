@@ -1,4 +1,3 @@
-import React from "react";
 import { FaExclamationTriangle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
@@ -11,15 +10,15 @@ const ErrorPage = ({ message }) => {
         Oops! Something went wrong.
       </h1>
       <p className="text-gray-600 mb-6 text-center">
-        {message ? message : "An unexpected error has occured"}
+        {message ? message : "An unexpected error has occurred"}
       </p>
       <button
         onClick={() => {
           navigate("/");
         }}
-        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 cursor-pointer"
+        className="bg-amber-300 hover:bg-amber-400 font-semibold px-6 py-2 rounded-md shadow-md shadow-slate-500 text-slate-900 cursor-pointer transition-colors"
       >
-        Go back to home
+        Go Back to Home
       </button>
     </div>
   );

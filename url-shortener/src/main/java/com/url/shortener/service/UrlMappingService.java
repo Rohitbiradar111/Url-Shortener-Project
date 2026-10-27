@@ -8,8 +8,9 @@ import com.url.shortener.models.User;
 import com.url.shortener.repository.ClickEventRepository;
 import com.url.shortener.repository.UrlMappingRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,12 +26,21 @@ public class UrlMappingService {
     private ClickEventRepository clickEventRepository;
 
     public UrlMappingDTO createShortUrl(String originalUrl, User user) {
-        String shortUrl = generateShortUrl();
+        if (!originalUrl.startsWith("http://") && !originalUrl.startsWith("https://")) {
+            originalUrl = "https://" + originalUrl;
+        }
+
+        String shortUrl;
+        do {
+            shortUrl = generateShortUrl();
+        } while (urlMappingRepository.findByShortUrl(shortUrl) != null);
+
         UrlMapping urlMapping = new UrlMapping();
         urlMapping.setOriginalUrl(originalUrl);
         urlMapping.setShortUrl(shortUrl);
         urlMapping.setUser(user);
         urlMapping.setCreatedDate(LocalDateTime.now());
+        urlMapping.setExpiresDate(LocalDateTime.now().plusDays(5));
         UrlMapping savedUrlMapping = urlMappingRepository.save(urlMapping);
         return convertToDto(savedUrlMapping);
     }
@@ -42,7 +52,8 @@ public class UrlMappingService {
         urlMappingDTO.setShortUrl(urlMapping.getShortUrl());
         urlMappingDTO.setClickCount(urlMapping.getClickCount());
         urlMappingDTO.setCreatedDate(urlMapping.getCreatedDate());
-        urlMappingDTO.setUsername(urlMapping.getUser().getUsername());
+        urlMappingDTO.setExpiresDate(urlMapping.getExpiresDate());
+        urlMappingDTO.setEmail(urlMapping.getUser().getEmail());
         return urlMappingDTO;
     }
 
@@ -91,9 +102,14 @@ public class UrlMappingService {
                         Collectors.counting()));
     }
 
+    @Cacheable(value = "urls", key = "#shortUrl", unless = "#result == null")
     public UrlMapping getOriginalUrl(String shortUrl) {
         UrlMapping urlMapping = urlMappingRepository.findByShortUrl(shortUrl);
         if (urlMapping != null) {
+            if (urlMapping.getExpiresDate() != null && urlMapping.getExpiresDate().isBefore(LocalDateTime.now())) {
+                evictUrlCache(shortUrl);
+                return null;
+            }
             urlMapping.setClickCount(urlMapping.getClickCount() + 1);
             urlMappingRepository.save(urlMapping);
             ClickEvent clickEvent = new ClickEvent();
@@ -102,5 +118,10 @@ public class UrlMappingService {
             clickEventRepository.save(clickEvent);
         }
         return urlMapping;
+    }
+
+    @CacheEvict(value = "urls", key = "#shortUrl")
+    public void evictUrlCache(String shortUrl) {
+        // Automatically evicts cache entry from Redis
     }
 }

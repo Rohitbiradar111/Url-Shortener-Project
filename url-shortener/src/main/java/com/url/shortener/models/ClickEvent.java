@@ -2,7 +2,6 @@ package com.url.shortener.models;
 
 import jakarta.persistence.*;
 import lombok.Data;
-
 import java.time.LocalDateTime;
 
 @Entity

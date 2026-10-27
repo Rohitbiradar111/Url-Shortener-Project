@@ -1,4 +1,3 @@
-import React from "react";
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
 
 const Footer = () => {
@@ -7,16 +6,16 @@ const Footer = () => {
   return (
     <footer className="bg-amber-500 text-black py-5 z-40 relative">
       <div className="container mx-auto px-6 lg:px-14 flex flex-col lg:flex-row lg:justify-between items-center gap-4">
-        <div className="text-center lg:text-left">
+        <div className="text-center lg:text-left select-none">
           <h2 className="text-3xl font-bold mb-2 italic">ClipIt</h2>
           <p>Simplifying URL shortening for efficient sharing</p>
         </div>
 
-        <p className="mt-4 lg:mt-0">
+        <p className="mt-4 lg:mt-0 select-none">
           &copy; {currentYear} ClipIt. All rights reserved.
         </p>
 
-        <div className="flex space-x-6 mt-4 lg:mt-0">
+        <div className="flex space-x-6 mt-4 lg:mt-0 select-none">
           <a href="#">
             <FaFacebook size={20} />
           </a>

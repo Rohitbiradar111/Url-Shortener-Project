@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import React from "react";
 import { motion } from "framer-motion";
 import Card from "./Card";
 import { GoArrowRight } from "react-icons/go";
@@ -39,7 +38,7 @@ const LandingPage = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
               onClick={() => navigate("/register")}
-              className="cursor-pointer border w-40 text-black rounded-full py-2 flex items-center justify-center gap-2 hover:bg-amber-300"
+              className="cursor-pointer w-40 text-slate-900 rounded-md py-2 flex items-center justify-center gap-2 bg-amber-300 hover:bg-amber-400 font-semibold shadow-md shadow-slate-500 transition-colors"
             >
               Get Started <GoArrowRight size={20} />
             </motion.button>

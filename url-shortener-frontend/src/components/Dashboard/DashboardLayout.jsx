@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useStoreContext } from "../../contextApi/ContextApi";
-import { useFetchMyShortUrls, useFetchTotalClicks } from "../../hooks/useQuery";
+import { useFetchMyShortUrls } from "../../hooks/useQuery";
 import { FaLink } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import Loader from "../Loader";
@@ -20,60 +20,50 @@ const DashboardLayout = () => {
     refetch,
   } = useFetchMyShortUrls(token);
 
-  const {
-    isLoading: loader,
-    isError: isClicksError,
-    data: totalClicks,
-  } = useFetchTotalClicks(token);
-
   useEffect(() => {
-    if (isUrlsError || isClicksError) {
+    if (isUrlsError) {
       navigate("/error");
     }
-  }, [isUrlsError, isClicksError, navigate]);
+  }, [isUrlsError, navigate]);
 
-  if (isLoading || loader) return <Loader />;
+  if (isLoading) return <Loader />;
 
   return (
     <div className="lg:px-20 sm:px-8 px-4 min-h-[calc(100vh-64px)]">
-      {loader ? (
-        <Loader />
-      ) : (
-        <div className="lg:w-[90%] w-full mx-auto py-10">
-          <div className="py-10 text-center">
-            <button
-              className="px-4 py-2 rounded-md bg-amber-400 hover:bg-amber-500 hover:cursor-pointer"
-              onClick={() => setShortenPopUp(true)}
-            >
-              Create a New Short URL
-            </button>
-          </div>
-
-          <div>
-            {!isLoading && myShortenUrls.length === 0 ? (
-              <div className="flex justify-center pt-16">
-                <div className="flex gap-2 items-center justify-center py-6 sm:px-8 px-5 rounded-md   shadow-lg bg-gray-50">
-                  <h1 className="text-slate-800 sm:text-[18px] text-[14px] font-semibold mb-1">
-                    You haven't created any short link yet
-                  </h1>
-                  <FaLink className="text-blue-500 sm:text-xl text-sm" />
-                </div>
-              </div>
-            ) : (
-              <>
-                <p className="text-slate-800 sm:text-[18px] text-[14px] font-semibold flex ">
-                  Recent Shorten Url's :
-                </p>
-                <div className="my-6 space-y-4">
-                  {myShortenUrls.map((item) => (
-                    <ShortenItem key={item.id} {...item} />
-                  ))}
-                </div>
-              </>
-            )}
-          </div>
+      <div className="lg:w-[90%] w-full mx-auto py-10">
+        <div className="py-10 text-center">
+          <button
+            className="px-6 py-2 rounded-md bg-amber-300 hover:bg-amber-400 font-semibold cursor-pointer shadow-md shadow-slate-500 text-slate-900 transition-colors"
+            onClick={() => setShortenPopUp(true)}
+          >
+            Create a New Short URL
+          </button>
         </div>
-      )}
+
+        <div>
+          {!isLoading && myShortenUrls?.length === 0 ? (
+            <div className="flex justify-center pt-16">
+              <div className="flex gap-2 items-center justify-center py-6 sm:px-8 px-5 rounded-md   shadow-lg bg-gray-50">
+                <h1 className="text-slate-800 sm:text-[18px] text-[14px] font-semibold mb-1">
+                  You haven't created any short link yet
+                </h1>
+                <FaLink className="text-blue-500 sm:text-xl text-sm" />
+              </div>
+            </div>
+          ) : (
+            <>
+              <p className="text-slate-800 sm:text-[20px] text-[18px] font-semibold flex ">
+                Recent Shorten Url's :
+              </p>
+              <div className="my-6 space-y-4">
+                {myShortenUrls.map((item) => (
+                  <ShortenItem key={item.id} {...item} />
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+      </div>
 
       <Modal
         open={shortenPopUp}
