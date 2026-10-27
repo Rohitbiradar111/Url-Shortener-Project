@@ -18,26 +18,37 @@
 
 ## <a name="overview">💡 Overview</a>
 
-ClipIt is a full-stack URL shortener developed using React, Spring Boot, and MySQL.
+ClipIt is a full-stack URL shortener with built-in AI URL Safety Scan powered by React, Spring Boot, MySQL, and Redis.
 
 ## <a name="tech-stack">👩‍💻 Tech Stack</a>
 
 - React
 - Spring Boot
 - MySQL
+- Redis
 - Tailwind CSS
+- Google Gemini AI
+- Docker
 
 ## <a name="features">✨ Features</a>
 
-- Transforms long, cumbersome URLs into short, manageable links for easier sharing.
+- Transforms long, cumbersome URLs into short, manageable links and automatically generates ready-to-scan QR codes for quick sharing.
   
-- Uses MySQL to map unique short-codes to original destination URLs with high integrity.
+- Uses MySQL to map unique short-codes to original destination URLs with high data integrity.
+
+- Checks links for phishing, scams, and malicious websites using the Google Gemini API before saving them.
+
+- Caches active links in Redis for fast redirection, with an automatic MySQL fallback so links still work even if Redis is down.
+
+- Tracks visitor clicks for each link so users can easily monitor link activity and performance.
+
+- Links automatically expire after 5 days, and an automated background cron job cleans up expired records to keep the database fast.
   
-- Provides a private area for users to manage their links, secured by Spring Security and JWT.
-  
-- Implements efficient server-side logic to handle instant traffic routing from the short link to the target site.
-  
-- Built with a clean Spring Boot REST API that handles link creation and retrieval requests seamlessly.
+- Provides a private dashboard for users to manage their links, secured by Spring Security and JWT authentication.
+
+- Built with a clean Spring Boot REST API backed by global exception handling, logging, multi-environment Spring profiles, and automated JUnit testing.
+
+- Containerized with a multi-stage Docker build for lightweight, consistent, and easy cloud deployment.
 
 ## <a name="documentation">📖 Documentation</a>
 
@@ -48,6 +59,10 @@ ClipIt is a full-stack URL shortener developed using React, Spring Boot, and MyS
 [MySQL](https://dev.mysql.com/doc/)
 
 [Tailwind CSS](https://tailwindcss.com/docs)
+
+[Redis](https://redis.io/docs/)
+
+[Docker](https://docs.docker.com/)
 
 ## <a name="contribute">📫 Contribute</a>
 
