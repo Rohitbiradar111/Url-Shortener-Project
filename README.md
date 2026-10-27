@@ -62,6 +62,8 @@ ClipIt is a full-stack URL shortener with built-in AI URL Safety Scan powered by
 
 [Redis](https://redis.io/docs/)
 
+[Google Gemini AI](https://ai.google.dev/)
+
 [Docker](https://docs.docker.com/)
 
 ## <a name="contribute">📫 Contribute</a>
